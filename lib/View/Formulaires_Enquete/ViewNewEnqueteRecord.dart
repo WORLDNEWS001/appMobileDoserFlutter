@@ -140,21 +140,13 @@ class _ViewNewEnqueteRecordState extends State<ViewNewEnqueteRecord> {
 
 
     //-------
-    widget.createNewEnquete();
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => listAccident()),
-    );
-
-
-    setState(() {
-      print("Traitement data");
+    widget.createNewEnquete().then((value) {
+      setState(() {
+        print(" \n\n\n\n +++++++++++++++ FIN Creation Accident +++++++++++++++ \n\n");
+      });
     });
 
 
-
-    print(" \n\n\n\n +++++++++++++++ FIN Creation Accident +++++++++++++++ \n\n\n\n");
 
   }
 

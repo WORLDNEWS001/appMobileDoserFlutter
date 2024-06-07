@@ -5,15 +5,24 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:secondtest/View/Formulaires_Enquete/one_select/view_one_select_form.dart';
 import 'package:secondtest/global_method.dart';
+import 'package:secondtest/model/class_data_oms_type/Enquete/VehiculeResp.dart';
 import 'package:secondtest/model/provider/collecte_data_provider/provider_collecte_data_enquette.dart';
 import 'package:secondtest/model/provider/data_oms_provider/data_oms_select_provider.dart';
 import 'package:select_form_field/select_form_field.dart';
 
 
 class RecordNewCar extends StatefulWidget {
-  const RecordNewCar({Key? key,  this.title,  this.subtitle}) : super(key: key);
+
   final String? title;
   final String? subtitle;
+  List<VehiculeResp>? listVehicule = [];
+
+   RecordNewCar({Key? key,
+     this.title,
+     this.subtitle,
+      this.listVehicule
+   }) : super(key: key);
+
 
 
   void saveDataNewCar() {

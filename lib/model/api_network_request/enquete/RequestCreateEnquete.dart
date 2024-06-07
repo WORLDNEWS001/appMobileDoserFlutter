@@ -13,6 +13,10 @@ import 'package:secondtest/model/provider/collecte_data_provider/provider_collec
 
 
 
+
+
+//-----------------------------  METHODE DE REQUETTE AVEC DIO TO CREATE ENQUETTE ---------------------------//
+
 Future<Map<String, dynamic>?> CreateEnqueteRequestDio({required Map<String, dynamic>? json_data_send })  async {
   var dio = Dio();
   //-----------------------------Generate Token ---------------------------//
@@ -40,7 +44,7 @@ Future<Map<String, dynamic>?> CreateEnqueteRequestDio({required Map<String, dyna
   });
 
   try {
-    var response = await dio.post('http://51.195.11.202:8099/api/v1/accidents/',
+    var response = await dio.post('${Constants.BASE_URL_API}/accidents/',
       data: formData,
     );
 
@@ -63,6 +67,57 @@ Future<Map<String, dynamic>?> CreateEnqueteRequestDio({required Map<String, dyna
 
 
 
+//-----------------------------  METHODE DE REQUETTE AVEC DIO TO EDIT ENQUETTE ---------------------------//
+
+
+Future<Map<String, dynamic>?> EditEnqueteRequestDio({required Map<String, dynamic>? json_data_send })  async {
+  var dio = Dio();
+  //-----------------------------Generate Token ---------------------------//
+  Logger().d("+++++( UTILISATION DE LA METHODE DIO POUR LES REQUETTE )++++ DEBUT  GENERATEUR DE TOKEN  pour  EDIT ACCIDENT++++++++++++++++++++++");
+  await TokenManager.getToken();
+  print("+++++++++++++++++ END  GENERATEUR DE TOKEN  pour  MODIFIER ACCIDENT++++++++++++++++++++++");
+  //-----------------------------print Token In LOG -----------------------//
+
+  print("------------( UTILISATION DE LA METHODE DIO POUR REQUETTE )-------- DEBUT REQUETTE MODIFIER ACCIDENT ------------");
+  //--------------- Ajout du jeton d'authentification dans l'en-tête
+  String? token = Constants.accessToken; // Remplacez par votre véritable jeton
+  Map<String, String> headers = {
+    'Authorization': 'Bearer $token',
+  };
+  dio.options.headers['Authorization'] = 'Bearer $token';
+
+  //Map<String, dynamic> data_reqAccident_json_all = context.read<ProviderColleteDataEnquete>().data_new_enquette ?? {};
+
+
+
+  FormData formData = FormData.fromMap({
+    "accidentReq": jsonEncode(json_data_send),
+    // Ajoutez les images si nécessaire
+    // "crashImage": await MultipartFile.fromFile('path_to_image', filename: 'image_name.png'),
+  });
+
+
+
+  try {
+
+    var response = await dio.post('${Constants.BASE_URL_API}/accidents/update',
+      data: formData,
+    );
+
+    if (response.statusCode == 200) {
+      Logger().w(" -------------//++++++++++++//++++++++++  RESULT REQUETTE EDIT ACCIDENT ---\n\n  ${response.data} \n\n");
+    } else {
+      print('-----------( UTILISATION DE LA METHODE DIO POUR LES REQUETTE )-----La requête modification enquete a échoué avec le statut: ${response.statusCode}.');
+    }
+
+  } catch (e) {
+    print('---( UTILISATION DE LA METHODE DIO POUR LES REQUETTE )----modification enquete   :: Une erreur est survenue lors de l\'envoi de la requête: $e');
+  }
+
+  Logger().e("------------( UTILISATION DE LA METHODE DIO POUR REQUETTE )-------- FIN REQUETTE EDIT ACCIDENT ------------");
+
+
+}
 
 
 
@@ -72,6 +127,51 @@ Future<Map<String, dynamic>?> CreateEnqueteRequestDio({required Map<String, dyna
 
 
 
+
+//------------ METHODE DE REQUETTE AVEC DIO TO GET ENQUETTE DATA BY ID---------------------------//
+
+Future<Map<String, dynamic>?> GetEnqueteRequestDio({required int? id_enquete })  async {
+  var dio = Dio();
+  //-----------------------------Generate Token ---------------------------//
+  Logger().d("+++++( UTILISATION DE LA METHODE DIO POUR LES REQUETTE )++++ DEBUT  GENERATEUR DE TOKEN  pour GET ACCIDENT ID = $id_enquete++++++++++++++++++++++");
+  await TokenManager.getToken();
+  print("+++++++++++++++++ END  GENERATEUR DE TOKEN  POUR  GET ACCIDENT ID = $id_enquete + +++++++++++++++++++++");
+  //-----------------------------print Token In LOG -----------------------//
+
+  print("------------( UTILISATION DE LA METHODE DIO POUR REQUETTE )-------- DEBUT REQUETTE GET ACCIDENT ID = $id_enquete ------------");
+  //--------------- Ajout du jeton d'authentification dans l'en-tête
+  String? token = Constants.accessToken; // Remplacez par votre véritable jeton
+  Map<String, String> headers = {
+    'Authorization': 'Bearer $token',
+  };
+  dio.options.headers['Authorization'] = 'Bearer $token';
+
+  //Map<String, dynamic> data_reqAccident_json_all = context.read<ProviderColleteDataEnquete>().data_new_enquette ?? {};
+
+  try {
+
+
+    Map<String, dynamic> resultDataRequest = {};
+    var response = await dio.get('${Constants.BASE_URL_API}/accidents/$id_enquete',);
+
+    if (response.statusCode == 200) {
+      Logger().w(" -------------//++++++++++++//++++++++++  RESULT REQUETTE GET ACCIDENT ID = $id_enquete response.data --->>> \n\n  ${response.data} \n\n");
+      //Logger().w(" -------------//++++++++++++//++++++++++  RESULT REQUETTE GET ACCIDENT response.data --->>> \n\n  ${response.data["data"]} \n\n");
+      //------- RETURN RESPONSE DATA TO MAP<String, dynamic>
+      resultDataRequest = response.data;
+      return response.data;
+
+    } else {
+      print('-----------( UTILISATION DE LA METHODE DIO POUR LES REQUETTE )-----La requête GET enquete ID = $id_enquete a échoué avec le statut: ${response.statusCode}.');
+    }
+
+  } catch (e) {
+    print('---( UTILISATION DE LA METHODE DIO POUR LES REQUETTE )----GET enquete ID = $id_enquete   :: Une erreur est survenue lors de l\'envoi de la requête: $e');
+  }
+
+  Logger().e("------------( UTILISATION DE LA METHODE DIO POUR REQUETTE )-------- FIN REQUETTE GET ACCIDENT ID = $id_enquete------------");
+
+}
 
 
 

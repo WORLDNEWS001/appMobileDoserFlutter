@@ -151,14 +151,23 @@ class GlobalMethod{
       dateStr = "2024-03-19";
       return "19/03/2024";
     }else{
-      DateTime date = DateTime.parse(dateStr);
 
-      // Formater la date selon le format français (jj/mm/aaaa)
-      DateFormat formatter = DateFormat('dd/MM/yyyy');
-      String formattedDate = formatter.format(date);
+    //-- verifir si la date est de la forme dd/mm/yyyy
+    if(dateStr != null && dateStr.contains("/")){
+      return dateStr;
+    }else{
 
-      return formattedDate;
+        DateTime date = DateTime.parse(dateStr);
+
+        // Formater la date selon le format français (jj/mm/aaaa)
+        DateFormat formatter = DateFormat('dd/MM/yyyy');
+        String formattedDate = formatter.format(date);
+
+        return formattedDate;
+      }
     }
+
+
 
   }
 

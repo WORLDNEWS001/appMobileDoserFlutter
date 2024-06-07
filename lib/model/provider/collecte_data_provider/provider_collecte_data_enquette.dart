@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:secondtest/global_method.dart';
 
 import 'package:secondtest/model/class_abstraite/abstrat_data_select_data_oms.dart';
 import 'package:secondtest/model/class_data_oms_type/Accident/accident_severity_resp.dart';
@@ -83,6 +84,42 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     notifyListeners();
   }
 
+
+  UpdateProvidersCollecteByDataEnquete (EnquetteData enquetteData){
+
+    DataFormEnquete = enquetteData;
+
+
+    data_enq_accident_position?.lat = DataFormEnquete?.latitude;
+    data_enq_accident_position?.lon = DataFormEnquete?.longitude;
+
+
+    data_enq_limite_vitesse = DataFormEnquete?.speedLimit;
+    data_enq_road_type = DataFormEnquete?.roadType;
+    data_enq_road_state = DataFormEnquete?.roadState;
+    data_enq_slop_section = DataFormEnquete?.roadSlopSection;
+    data_enq_control = DataFormEnquete?.roadTrafficControl;
+    data_enq_road_category = DataFormEnquete?.roadCategory;
+    data_enq_block = DataFormEnquete?.block;
+    data_enq_road_intersection = DataFormEnquete?.roadIntersection;
+    data_enq_virage = DataFormEnquete?.virage;
+
+    date_accident_controller?.text = DataFormEnquete?.accidentDate ?? "";
+    time_accident_controller?.text = DataFormEnquete?.accidentTime ?? "";
+    places_accident_controller?.text = DataFormEnquete?.place ?? "";
+    data_enq_city = DataFormEnquete?.city;
+    data_enq_municipality = DataFormEnquete?.municipality;
+    data_enq_accident_type = DataFormEnquete?.accidentType;
+    data_enq_climatic_condition = DataFormEnquete?.climaticCondition;
+    data_enq_impact_type = DataFormEnquete?.impactType;
+    data_enq_brightness_condition = DataFormEnquete?.brightnessCondition;
+    data_enq_accident_severity = DataFormEnquete?.accidentSeverity;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
+
+  }
 
 
 
@@ -503,7 +540,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
         "virage": data_enq_virage?.id ?? 2,
         "roadSlopSection": data_enq_slop_section?.id ?? 1,
         "accidentSeverity": data_enq_accident_severity?.id ?? 2,
-        "accidentDate":convertirDateFrancais(date_accident_controller?.text),
+        "accidentDate":GlobalMethod.convertirDateFrancais(date_accident_controller?.text),
         "city": data_enq_city?.id ?? 7,
         "municipality": data_enq_municipality?.id ?? 1 ,
         "place": "new MOB ${places_accident_controller?.text}",
@@ -563,7 +600,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     notifyListeners();
   }
 
-
+/*
   String convertirDateFrancais(String? dateStr) {
     // Vérifier le format de la date d'entrée (optionnel)
     // ...
@@ -583,7 +620,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     }
 
   }
-
+*/
 
 
   resetDataForm(){

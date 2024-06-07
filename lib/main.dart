@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:secondtest/model/api_network_request/enquete/RequestCreateEnquete.dart';
 import 'package:secondtest/model/class_data_oms_type/Route/control_resp.dart';
 import 'package:secondtest/model/data_samples/data_enquette_sample.dart';
 import 'package:secondtest/model/provider/collecte_data_provider/provider_collecte_data_enquette.dart';
@@ -105,6 +106,8 @@ class MyApp extends StatelessWidget{
 
   bool activateUpdateData=true;
 
+
+
   @override
   Widget build(BuildContext context){
 
@@ -115,17 +118,26 @@ class MyApp extends StatelessWidget{
       Logger().e("+++++++++++ START EXECUTE BUILD  MYAPP  +++++++++");
 
       if(activateUpdateData){
+
+        //------------ TEST SCRIPT --------------//
+
+        EditEnqueteRequestDio(json_data_send: SampleDataSendToEdit_oneEnquette_old);
+
+        //------ END TES SCRIPT --------------//
+
+
+
          context.read<DataOmsSelectProvider>().UpdateDataOmsSelectProvider(context: context).then((value) {
               /*
            DataOmsSelectProvider dataOmsSelectProvider=  context.read<DataOmsSelectProvider>();
            List<ControlResp> listControlResp = dataOmsSelectProvider.controlRespListSelect;
            Logger().e("\n\n\n\n+++++++++++ Afficher les données de  listControlResp recuperer::\n\n Get data by code :: ${dataOmsSelectProvider.getControlRespById(2)} -------- \n\n ${listControlResp}  +++++++++\n\n\n\n");
               */
-         });
-         context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider(context: context).then((val){
+        });
+         //context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider(context: context).then((val){
            //TestDataEnquette().getEnquetteDataTest(context);
            //TestDataEnquette().getEnquetteRequestTest();
-         });
+        // });
         activateUpdateData=false;
       }
 

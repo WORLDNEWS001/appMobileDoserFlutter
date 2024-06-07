@@ -1,11 +1,14 @@
 
 
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:secondtest/View/Formulaires_Enquete/ViewNewEnqueteRecord.dart';
 import 'package:secondtest/controller/ControllerEnquette/ControllerEnquette.dart';
 import 'package:secondtest/model/api_network_request/accident/list_accident_request.dart';
+import 'package:secondtest/model/api_network_request/enquete/RequestCreateEnquete.dart';
 import 'package:secondtest/model/provider/collecte_data_provider/provider_collecte_data_enquette.dart';
 import 'package:secondtest/model/provider/list_accident_provider/data_list_accident_provider.dart';
+import 'package:secondtest/services/enquete/edit_enquete/MethodEditEnquete.dart';
 import 'package:secondtest/widgets/listDataDisplay/listEnqueteEnCour.dart';
 import 'package:secondtest/widgets/listDataDisplay/listEnqueteCloture.dart';
 import 'package:secondtest/widgets/listDataDisplay/listEnqueteAnnuler.dart';
@@ -174,10 +177,9 @@ class _listAccidentState extends State<listAccident> {
     // TODO: implement initState
     super.initState();
     context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider();
-    context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider();
+    Logger().e("***************** // INIT STATE PAGE LIST ACCIDENT // *****************");
+
   }
-
-
 
 
   @override
@@ -212,7 +214,19 @@ class _listAccidentState extends State<listAccident> {
               icon: Icon(Icons.update_sharp),
               onPressed: () {
                 // Action lorsque l'icône de recherche est pressée.
-                context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider();
+                //context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider();
+
+
+                //----- testing Script----//
+                    //-- request direct -- **********
+                    // GetEnqueteRequestDio(id_enquete: 291);
+
+                    //-- request direct transforme result to Enquete Data -- **********
+                    MethodEditEnquete().GetDataEnqueteWithIdRequest(context: context,id: 289);
+
+
+                //---End testing Script----//
+
               },
             ),
           )
@@ -503,8 +517,6 @@ class _listAccidentState extends State<listAccident> {
             ),
           ),
         ),
-
-
 
     );
 

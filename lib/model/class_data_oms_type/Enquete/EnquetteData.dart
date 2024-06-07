@@ -155,7 +155,7 @@ factory EnquetteData.fromJson(Map<String, dynamic>? json) {
 
      DataOmsSelectProvider StateProviderData = context.read<DataOmsSelectProvider>();
      List<MunicipalityResp?>? dataView = StateProviderData.municipalityRespListSelect;
-     
+
      print("\n\n\n\n\n data view de minicupality est :::\n \n\n la liste est $dataView \n\n\n\n\n");
 
 
@@ -167,8 +167,7 @@ factory EnquetteData.fromJson(Map<String, dynamic>? json) {
      print("\n\n\n\n\n data view de dataViewRoad est :::\n \n\n la liste est $dataViewdataViewRoad \n\n\n\n\n");
 
 
-
-
+      Logger().e("\n \n\n--------- data Statut json?['status']  ----- ${json?['status'] }    -\n \n\n ");
      //DataOmsSelectProvider dataOmsSelectProvider=  context.read<DataOmsSelectProvider>();
      //List<ControlResp> listControlResp = dataOmsSelectProvider.controlRespListSelect;
      //Logger().e("\n\n\n\n+++++++++++ Afficher les données de  listControlResp recuperer::\n\n Get data by code :: ${dataOmsSelectProvider.getControlRespById(0)} -------- \n\n ${listControlResp}  +++++++++\n\n\n\n");
@@ -253,7 +252,7 @@ factory EnquetteData.fromJson(Map<String, dynamic>? json) {
 
    Map<String, dynamic> toJson_send_to_add_EnquetteRequest() {
      return {
-       "accidentReq": {
+       //"accidentReq": {
          "latitude": latitude,
          "longitude": longitude,
          "causes": causes?.map((c) => c.toJson()).toList(),
@@ -283,7 +282,45 @@ factory EnquetteData.fromJson(Map<String, dynamic>? json) {
          "crashImages": crashImages?.map((i) => i.toJson()).toList() ?? [],
          "drawing": drawing?.toJson() ?? {},
          "id": 0
-       }
+       //}
+     };
+   }
+
+
+
+   Map<String, dynamic> toJson_send_to_edit_EnquetteRequest() {
+     return {
+       //"accidentReq": {
+       "latitude": latitude,
+       "longitude": longitude,
+       "causes": causes?.map((c) => c.toJson()).toList(),
+       "accidentType": accidentType?.id ?? 1,
+       "impactType": impactType?.id ?? 1,
+       "climaticCondition": climaticCondition?.id ?? 1,
+       "brightnessCondition": brightnessCondition?.id ?? 1,
+       "roadType": roadType?.id ?? 1,
+       "roadState": roadState?.id ?? 1,
+       "roadIntersection": roadIntersection?.id ?? 1,
+       "block": block?.id ?? 1,
+       "roadTrafficControl":roadTrafficControl?.id ?? 1,
+       "virage": virage?.id ?? 1,
+       "roadSlopSection": roadSlopSection?.id ?? 1,
+       "accidentSeverity": accidentSeverity?.id ?? 1,
+       "accidentDate":GlobalMethod.convertirDateFrancais(accidentDate),
+       "city": city?.id ?? 1,
+       "municipality": municipality?.id ?? 1 ,
+       "place": "MOB Add other--> ${place}",
+       "roadCategory": roadCategory?.id ?? 1,
+       "accidentTime": accidentTime ?? "11:14",
+       "road": 0,
+       "status": "OPENED",
+       "speedLimit": speedLimit ?? 0,
+       "vehicules":  vehicules?.map((v) => v.toJson()).toList() ?? [],
+       "persons": [],
+       "crashImages": crashImages?.map((i) => i.toJson()).toList() ?? [],
+       "drawing": drawing?.toJson() ?? {},
+       'id': id ?? 0,
+       //}
      };
    }
 
@@ -382,6 +419,7 @@ EnquetteData copyWith({
 
 
 
+   //-------------------Methode Add image Accident-------------------
 
 
 
@@ -395,8 +433,7 @@ EnquetteData copyWith({
 
     Future<Map<String, dynamic>?> executeRequestCreateEnquete() async {
       try {
-        Logger().i(
-            "\n\n /-----------(Requette : (Create Enquete))---Start Section Class Request API !!  with data : ${toJson_send_to_add_EnquetteRequest()} ------------------\n\n");
+        Logger().i("\n\n /-----------(Requette : (Create Enquete))---Start Section Class Request API !!  with data : ${toJson_send_to_add_EnquetteRequest()} ------------------\n\n");
 
         //-------------Execution de la requete de creation d'une enquette
         Map<String, dynamic>? resultRequest = await CreateEnqueteRequestDio(json_data_send: toJson_send_to_add_EnquetteRequest());
@@ -410,6 +447,38 @@ EnquetteData copyWith({
             "/-----------(Requette : (Create Enquete))---Error Section Class Request API ------------------");
         return {"error": e.toString()};
       }
+    }
+
+
+
+    //--------------- methode de la requette modification d'une enquette
+
+   Future<Map<String, dynamic>?> executeRequestEditEnquete() async {
+     try {
+       Logger().i("\n\n /-----------(Requette : (Edit Enquete))---Start Section Class Request API !!  with data : ${toJson_send_to_add_EnquetteRequest()} ------------------\n\n");
+
+       //-------------Execution de la requete de creation d'une enquette
+       Map<String, dynamic>? resultRequest = await EditEnqueteRequestDio(json_data_send: toJson_send_to_edit_EnquetteRequest());
+       //----- waiting 2 milliseconds
+       await Future.delayed(Duration(milliseconds: 2));
+       //------- return result*
+       return resultRequest;
+       //return {};
+     } catch (e) {
+       Logger().e(
+           "/-----------(Requette : (Edit Enquete))---Error Section Class Request API ------------------");
+       return {"error": e.toString()};
+     }
+   }
+
+
+
+
+
+
+   //------- Methode to Add vehicule in EnquetteData
+    void addVehicule(VehiculeResp vehicule) {
+      vehicules?.add(vehicule);
     }
 
 

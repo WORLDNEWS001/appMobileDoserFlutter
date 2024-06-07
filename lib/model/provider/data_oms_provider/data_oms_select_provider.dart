@@ -132,7 +132,7 @@ class DataOmsSelectProvider with ChangeNotifier{
       List<CityResp?>? cityRespListSelect = [];
       //---methode get on CityResp by CityResp.code
       CityResp? getCityRespById(int id){
-        return cityRespListSelect?.firstWhere((element) => element?.id == id);
+        return cityRespListSelect?.firstWhere((element) => element?.id == id, orElse: () => null);
       }
 
 
@@ -186,7 +186,7 @@ class DataOmsSelectProvider with ChangeNotifier{
         AccidentSeverityResp? ChoiseData= accidentSeverityRespListSelect?.firstWhere((element) {
           print("\n\n element?.id est==  ${element?.code} \n et code est == $code \n\n");
           return element?.id == code;
-        });
+        },  orElse: () => (null));
         print("\n data choise is  --->> $ChoiseData  \n");
         return ChoiseData;
       }

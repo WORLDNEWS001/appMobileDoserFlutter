@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:secondtest/View/Liste_Accident/Tile_One_Accident/Profil_Image_Accident.dart';
 
@@ -29,6 +30,22 @@ class enqueteEnCour extends StatefulWidget {
 }
 
 class _enqueteEnCourState extends State<enqueteEnCour> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   // context.read<DataListAccidentProvider>().UpdateDataAccidentListProvider();
+    Logger().e("***************** // INIT STATE PAGE enqueteEnCour // *****************");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -148,7 +165,7 @@ class _enqueteEnCourState extends State<enqueteEnCour> {
                                   margin: EdgeInsets.only(top: 12,),
                                   child: PopupMenuButton<OptionAccident>(
                                     onSelected: (OptionAccident optionAccident) {
-                                      context.read<TypeOptionProvider>().executeOption(typeOption: optionAccident.typeOption, idAccident: item['id']);
+                                      context.read<TypeOptionProvider>().executeOption(context: context, typeOption: optionAccident.typeOption, idAccident: item['id']);
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                           content: Text(

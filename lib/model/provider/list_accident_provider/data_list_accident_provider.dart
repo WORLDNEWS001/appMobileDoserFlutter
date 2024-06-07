@@ -29,6 +29,7 @@ class DataListAccidentProvider with ChangeNotifier {
 
     //notifyListeners();
 
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
     });
@@ -76,14 +77,19 @@ class DataListAccidentProvider with ChangeNotifier {
         errorRequestListAccident=false;
       }
         search_progress = false;
-      notifyListeners();
+
       Logger().i("--------(Provider)----------Fin de Mise a Jour des donnee des Accident --------------");
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
     });
 
     //await SelectDataOmsRequest().respSelectDataOmsRequest();
     //await DataOmsSelectProvider().UpdateDataOmsSelectProvider(context: context);
 
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   updateStateErrorRequest(){
@@ -92,5 +98,11 @@ class DataListAccidentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  RefreshProviderDataAccidentList(){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
+  }
 
 }

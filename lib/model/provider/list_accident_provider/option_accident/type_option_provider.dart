@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:secondtest/authentificator/requestAPI.dart';
 import 'package:secondtest/authentificator/request_Token.dart';
+import 'package:secondtest/controller/ControllerEnquette/ControllerEnquette.dart';
 import 'package:secondtest/model/Class_setting/List_accident_load_service/Option_accident.dart';
 import 'package:secondtest/model/Class_setting/List_accident_load_service/type_option.dart';
+import 'package:secondtest/services/enquete/edit_enquete/MethodEditEnquete.dart';
 
 
 class TypeOptionProvider with ChangeNotifier {
@@ -111,48 +113,47 @@ class TypeOptionProvider with ChangeNotifier {
     ];
 
 
-    executeOption({required TypeOption typeOption, required int idAccident}) {
+    executeOption({required BuildContext context, required TypeOption typeOption, required int idAccident}) async {
       switch (typeOption) {
         case TypeOption.consulter:
           {
-            print(
-                "********** Consultation  de l'accident id == ${idAccident}**************");
+            print("********** Consultation  de l'accident id == ${idAccident}**************");
           }
           break;
         case TypeOption.modifier:
           {
-            print(
-                "********* Modification de l'accident id == ${idAccident}**************");
+            print("********* Modification de l'accident id == ${idAccident}**************");
+            //MethodEditEnquete().GetDataEnqueteWithIdRequest(context: context, id: idAccident);
+            await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ControllerEnquete(idEnquete: idAccident,)),
+            );
+
           }
           break;
         case TypeOption.ajouter_croquis:
           {
-            print(
-                "********* ajouter_croquis de l'accident id == ${idAccident}**************");
+            print("********* ajouter_croquis de l'accident id == ${idAccident}**************");
           }
           break;
         case TypeOption.creation_pv:
           {
-            print(
-                "********* creation_pv de l'accident id == ${idAccident}**************");
+            print("********* creation_pv de l'accident id == ${idAccident}**************");
           }
           break;
         case TypeOption.teminer_pv:
           {
-            print(
-                "********* terminer_pv de l'accident id == ${idAccident}**************");
+            print("********* terminer_pv de l'accident id == ${idAccident}**************");
           }
           break;
         case TypeOption.generer_pv:
           {
-            print(
-                "********* generer_pv de l'accident id == ${idAccident}**************");
+            print("********* generer_pv de l'accident id == ${idAccident}**************");
           }
           break;
         case TypeOption.generer_rapport:
           {
-            print(
-                "********* generer_rapport de l'accident id == ${idAccident}**************");
+            print("********* generer_rapport de l'accident id == ${idAccident}**************");
           }
           break;
         default:

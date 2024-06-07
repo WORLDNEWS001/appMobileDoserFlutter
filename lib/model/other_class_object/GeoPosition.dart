@@ -3,8 +3,8 @@ import 'dart:convert';
 class GeoPosition {
   String city;
   String street;
-  double lat;
-  double lon;
+  double? lat;
+  double? lon;
   double? altitude;
 
   GeoPosition({

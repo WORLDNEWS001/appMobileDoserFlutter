@@ -20,6 +20,15 @@ class ActionResp implements AbstratDataSelectDataOms {
     );
   }
 
+  //------ Methode FromJson avec code, id , et value
+  factory ActionResp.fromMap(Map<String, dynamic>? json) {
+    return ActionResp(
+      id: json?['id'],
+      name: json?['name'],
+      value: json?['value'],
+    );
+  }
+
   //------ Methode toJson avec code, id , et value
   Map<String, dynamic> toJson() {
     return {

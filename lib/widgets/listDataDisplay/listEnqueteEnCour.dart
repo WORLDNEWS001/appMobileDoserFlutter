@@ -168,12 +168,9 @@ class _enqueteEnCourState extends State<enqueteEnCour> {
                                       context.read<TypeOptionProvider>().executeOption(context: context, typeOption: optionAccident.typeOption, idAccident: item['id']);
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
-                                          content: Text(
-                                              "c'est le bonbon de type ${optionAccident
-                                                  .textDisplay} ou encore ${optionAccident
-                                                  .typeOption}qui a ete selectionner , Ayant pour ID == ${optionAccident
-                                                  .id}"),
-                                        ),
+                                        content: Text(
+                                            "c'est le bonbon de type ${optionAccident.textDisplay} ou encore ${optionAccident.typeOption}qui a ete selectionner , Ayant pour ID == ${optionAccident.id}"),
+                                      ),
                                       );
                                     },
 

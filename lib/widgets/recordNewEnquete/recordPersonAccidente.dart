@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:secondtest/model/class_data_oms_type/Enquete/PersonResp.dart';
+import 'package:secondtest/model/provider/collecte_data_provider/provider_collecte_data_enquette.dart';
 import 'package:secondtest/widgets/recordNewEnquete/recordNewPerson.dart';
-
-
-
 
 final List<MyData> dataList = [
   MyData(
@@ -64,18 +64,21 @@ final List<MyData> dataList = [
 
 
 class RecordPersonAccidente extends StatefulWidget {
-  const RecordPersonAccidente({Key? key, required this.onStepUpdated}) : super(key: key);
   final Function(int) onStepUpdated;
+  List<PersonResp>? listPerson = [];
 
-   void testvalfile() async {
+  RecordPersonAccidente(
+      {Key? key, required this.onStepUpdated, this.listPerson})
+      : super(key: key);
 
-     // Obtention du répertoire de téléchargement externe
-     Directory? downloadDirectory = await getExternalStorageDirectory();
-     String? downloadPath = downloadDirectory?.path;
+  void testvalfile() async {
+    // Obtention du répertoire de téléchargement externe
+    Directory? downloadDirectory = await getExternalStorageDirectory();
+    String? downloadPath = downloadDirectory?.path;
 
-     // Chemin complet du fichier JSON
-     String filePath = '$downloadPath/data.json';
-     print("documentsPath filePath est  ${downloadDirectory}");
+    // Chemin complet du fichier JSON
+    String filePath = '$downloadPath/data.json';
+    print("documentsPath filePath est  ${downloadDirectory}");
      print("filePath  filePath est  ${filePath}");
      File jsonFile = File(filePath);
      // Lecture des données à partir du fichier JSON
@@ -107,6 +110,7 @@ class RecordPersonAccidente extends StatefulWidget {
 
 class _RecordPersonAccidenteState extends State<RecordPersonAccidente> {
 
+  List<PersonResp>? listPersonRecord = [];
 
   @override
   void initState() {
@@ -114,19 +118,47 @@ class _RecordPersonAccidenteState extends State<RecordPersonAccidente> {
     // Votre initialisation ou logique d'état ici
     //widget.someAction();
     //widget.testvalfile();
+    listPersonRecord =
+        context.read<ProviderColleteDataEnquete>().data_enq_persons;
   }
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    listPersonRecord =
+        context.watch<ProviderColleteDataEnquete>().data_enq_persons;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     //widget.testvalfile();
     return ListView.builder(
-      itemCount: dataList.length,
+      itemCount: listPersonRecord?.length,
       itemBuilder: (BuildContext context, int index) {
+        PersonResp? person = listPersonRecord?[index];
+
         return Card(
           child: ListTile(
-            title: Text(dataList[index].title),
-            subtitle: Text(dataList[index].subtitle),
+            title: Text(
+              "${person?.firstName ?? ''} ${person?.lastName ?? ''} - Gravité : ${person?.traumaSeverity?.value ?? ''}",
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+                "Vehicule Numero : ${person?.vehicleAccidentNumber ?? ''} - Genre : ${person?.gender?.value ?? ''} "),
+            trailing: Icon(
+              Icons.person,
+              size: 50,
+            ),
             onTap: () {
               Navigator.push(
                 context,

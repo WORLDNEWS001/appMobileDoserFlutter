@@ -15,13 +15,11 @@ class RecordNewCar extends StatefulWidget {
 
   final String? title;
   final String? subtitle;
-  List<VehiculeResp>? listVehicule = [];
 
-   RecordNewCar({Key? key,
+  RecordNewCar({Key? key,
      this.title,
      this.subtitle,
-      this.listVehicule
-   }) : super(key: key);
+  }) : super(key: key);
 
 
 

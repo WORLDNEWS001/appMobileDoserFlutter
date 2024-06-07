@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:secondtest/model/class_data_oms_type/Enquete/Images.dart';
+import 'package:secondtest/model/class_data_oms_type/Person/action_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/alcohol_consumption_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/alcohol_test_result_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/alcohol_test_status_resp.dart';
@@ -36,7 +37,7 @@ class PersonResp {
   TraumaSeverityResp? traumaSeverity;
   WearingHelmetResp? wearingHelmet;
   OccupantRestraintSystemResp? occupantRestraintSystem;
-  int? personAction;
+  ActionResp? personAction;
   AlcoholConsumptionResp? alcoholConsumption;
   AlcoholTestStatusResp? testStatus;
   AlcoholTestTypeResp? testType;
@@ -51,12 +52,9 @@ class PersonResp {
   int? typepermis;
   String? dateCreate;
   String? StatusRequest;
-  String? vgt_id;
+  int? vgt_id;
   int? originalIndex;
   String? types;
-
-
-
 
   PersonResp({
     this.id,
@@ -103,28 +101,30 @@ factory PersonResp.fromJson(Map<String, dynamic>? json) {
     cni: json?['cni'],
     telephone: json?['telephone'],
     personAccidentNumber: json?['personAccidentNumber'],
-    vehicleAccidentNumber: json?['vehicleAccidentNumber'],
-    vehicleLinkedPedestrian: json?['vehicleLinkedPedestrian'],
-    birthDate: json?['birthDate'],
-    gender: GenderResp.fromJson(json?['gender']),
-    roadType: RoadTypeResp.fromJson(json?['roadType']),
-    range: SeatingRangeResp.fromJson(json?['range']),
-    place: SeatingPlaceResp.fromJson(json?['place']),
-    traumaSeverity: TraumaSeverityResp.fromJson(json?['traumaSeverity']),
-    wearingHelmet: WearingHelmetResp.fromJson(json?['wearingHelmet']),
-    occupantRestraintSystem: OccupantRestraintSystemResp.fromJson(json?['occupantRestraintSystem']),
-    personAction: json?['personAction'],
-    alcoholConsumption: AlcoholConsumptionResp.fromJson(json?['alcoholConsumption']),
-    testStatus: AlcoholTestStatusResp.fromJson(json?['testStatus']),
-    testType: AlcoholTestTypeResp.fromJson(json?['testType']),
-    testResult: AlcoholTestResultResp.fromJson(json?['testResult']),
-    drugUse: PersonDrugUseResp.fromJson(json?['drugUse']),
-    drivingLicenceYear: json?['drivingLicenceYear'],
-    care: json?['care'],
-    personId: json?['personId'],
-    images: (json?['images'] as List).map((i) => Images.fromJson(i)).toList(),
-    profession: ProfessionResp.fromJson(json?['profession']),
-    nopermis: json?['nopermis'],
+      vehicleAccidentNumber: json?['vehicleAccidentNumber'],
+      vehicleLinkedPedestrian: json?['vehicleLinkedPedestrian'],
+      birthDate: json?['birthDate'],
+      gender: GenderResp.fromJson(json?['gender']),
+      roadType: RoadTypeResp.fromJson(json?['roadType']),
+      range: SeatingRangeResp.fromJson(json?['range']),
+      place: SeatingPlaceResp.fromJson(json?['place']),
+      traumaSeverity: TraumaSeverityResp.fromJson(json?['traumaSeverity']),
+      wearingHelmet: WearingHelmetResp.fromJson(json?['wearingHelmet']),
+      occupantRestraintSystem: OccupantRestraintSystemResp.fromJson(
+          json?['occupantRestraintSystem']),
+      personAction: ActionResp.fromJson(json?['personAction']),
+      alcoholConsumption:
+          AlcoholConsumptionResp.fromJson(json?['alcoholConsumption']),
+      testStatus: AlcoholTestStatusResp.fromJson(json?['testStatus']),
+      testType: AlcoholTestTypeResp.fromJson(json?['testType']),
+      testResult: AlcoholTestResultResp.fromJson(json?['testResult']),
+      drugUse: PersonDrugUseResp.fromJson(json?['drugUse']),
+      drivingLicenceYear: json?['drivingLicenceYear'],
+      care: json?['care'],
+      personId: json?['personId'],
+      images: (json?['images'] as List).map((i) => Images.fromJson(i)).toList(),
+      profession: ProfessionResp.fromJson(json?['profession']),
+      nopermis: json?['nopermis'],
     typepermis: json?['typepermis'],
     dateCreate: json?['dateCreate'],
     StatusRequest: json?['StatusRequest'],
@@ -154,19 +154,28 @@ factory PersonResp.fromJson(Map<String, dynamic>? json) {
       roadType: StateProviderData.getRoadTypeRespById(json?['roadType']),
       range: StateProviderData.getSeatingRangeRespById(json?['range']),
       place: StateProviderData.getSeatingPlaceRespById(json?['place']),
-      traumaSeverity: StateProviderData.getTraumaSeverityRespById(json?['traumaSeverity']),
-      wearingHelmet: StateProviderData.getWearingHelmetRespById(json?['wearingHelmet']),
-      occupantRestraintSystem: StateProviderData.getOccupantRestraintSystemRespById(json?['occupantRestraintSystem']),
-      personAction: json?['personAction'],
-      alcoholConsumption: StateProviderData.getAlcoholConsumptionRespById(json?['alcoholConsumption']),
-      testStatus: StateProviderData.getAlcoholTestStatusRespById(json?['testStatus']),
+      traumaSeverity:
+          StateProviderData.getTraumaSeverityRespById(json?['traumaSeverity']),
+      wearingHelmet:
+          StateProviderData.getWearingHelmetRespById(json?['wearingHelmet']),
+      occupantRestraintSystem:
+          StateProviderData.getOccupantRestraintSystemRespById(
+              json?['occupantRestraintSystem']),
+      personAction: StateProviderData.getActionRespById(json?['personAction']),
+      alcoholConsumption: StateProviderData.getAlcoholConsumptionRespById(
+          json?['alcoholConsumption']),
+      testStatus:
+          StateProviderData.getAlcoholTestStatusRespById(json?['testStatus']),
       testType: StateProviderData.getAlcoholTestTypeRespById(json?['testType']),
-      testResult: StateProviderData.getAlcoholTestResultRespById(json?['testResult']),
+      testResult:
+          StateProviderData.getAlcoholTestResultRespById(json?['testResult']),
       drugUse: StateProviderData.getPersonDrugUseRespById(json?['drugUse']),
       drivingLicenceYear: json?['drivingLicenceYear'],
       care: json?['care'],
       personId: json?['personId'],
-      images: (json?['images'] as List<dynamic>?)?.map((item) => Images.fromJson(item as Map<String, dynamic>)).toList(),
+      images: (json?['images'] as List<dynamic>?)
+          ?.map((item) => Images.fromJson(item as Map<String, dynamic>))
+          .toList(),
       profession: StateProviderData.getProfessionRespById(json?['profession']),
       nopermis: json?['nopermis'],
       typepermis: json?['typepermis'],
@@ -241,35 +250,35 @@ Map<String, dynamic> toJson() {
       String? cni,
       String? telephone,
       int? personAccidentNumber,
-      int? vehicleAccidentNumber,
-      int? vehicleLinkedPedestrian,
-      String? birthDate,
-      GenderResp? gender,
-      RoadTypeResp? roadType,
-      SeatingRangeResp? range,
-      SeatingPlaceResp? place,
-      TraumaSeverityResp? traumaSeverity,
-      WearingHelmetResp? wearingHelmet,
-      OccupantRestraintSystemResp? occupantRestraintSystem,
-      int? personAction,
-      AlcoholConsumptionResp? alcoholConsumption,
-      AlcoholTestStatusResp? testStatus,
-      AlcoholTestTypeResp? testType,
-      AlcoholTestResultResp? testResult,
-      PersonDrugUseResp? drugUse,
-      String? drivingLicenceYear,
-      int? care,
-      int? personId,
-      List<Images>? images,
-      ProfessionResp? profession,
-      String? nopermis,
-      int? typepermis,
-      String? dateCreate,
-      String? StatusRequest,
-      String? vgt_id,
-      int? originalIndex,
-      String? types,
-    }) {
+    int? vehicleAccidentNumber,
+    int? vehicleLinkedPedestrian,
+    String? birthDate,
+    GenderResp? gender,
+    RoadTypeResp? roadType,
+    SeatingRangeResp? range,
+    SeatingPlaceResp? place,
+    TraumaSeverityResp? traumaSeverity,
+    WearingHelmetResp? wearingHelmet,
+    OccupantRestraintSystemResp? occupantRestraintSystem,
+    ActionResp? personAction,
+    AlcoholConsumptionResp? alcoholConsumption,
+    AlcoholTestStatusResp? testStatus,
+    AlcoholTestTypeResp? testType,
+    AlcoholTestResultResp? testResult,
+    PersonDrugUseResp? drugUse,
+    String? drivingLicenceYear,
+    int? care,
+    int? personId,
+    List<Images>? images,
+    ProfessionResp? profession,
+    String? nopermis,
+    int? typepermis,
+    String? dateCreate,
+    String? StatusRequest,
+    int? vgt_id,
+    int? originalIndex,
+    String? types,
+  }) {
       return PersonResp(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,

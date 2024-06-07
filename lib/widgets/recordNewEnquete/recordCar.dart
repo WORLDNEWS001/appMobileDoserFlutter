@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:secondtest/model/class_data_oms_type/Enquete/VehiculeResp.dart';
+import 'package:secondtest/model/provider/collecte_data_provider/provider_collecte_data_enquette.dart';
 
 import 'package:secondtest/widgets/recordNewEnquete/recordNewCar.dart';
-
-
-
 
 final List<MyData> dataList = [
   MyData(
@@ -23,10 +23,10 @@ final List<MyData> dataList = [
 
 
 class recordCarCrash extends StatefulWidget {
-  const recordCarCrash({Key? key, required this.onStepUpdated}) : super(key: key);
+  recordCarCrash({Key? key, required this.onStepUpdated, this.listVehicule})
+      : super(key: key);
   final Function(int) onStepUpdated;
-
-
+  List<VehiculeResp>? listVehicule = [];
 
   /*void someAction() {
     // Effectuez l'action qui doit modifier currentStep
@@ -35,7 +35,6 @@ class recordCarCrash extends StatefulWidget {
     onStepUpdated(3);
   } */
   //--------------------  for update value step (MAKE function Some Action)
-
 
   static int someAction(Function(int) onStepUpdated) {
     // Effectuez l'action qui doit modifier currentStep
@@ -51,28 +50,39 @@ class recordCarCrash extends StatefulWidget {
 }
 
 class _recordCarCrashState extends State<recordCarCrash> {
+  List<VehiculeResp>? listVehiculeRecord = [];
 
   @override
   void initState() {
     super.initState();
     print("initiation de la page Record Car terminer ----");
 
-
+    listVehiculeRecord =
+        context.read<ProviderColleteDataEnquete>().list_data_enq_vehicules;
   }
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
 
+    listVehiculeRecord =
+        context.watch<ProviderColleteDataEnquete>().list_data_enq_vehicules;
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: dataList.length,
+      itemCount: listVehiculeRecord?.length,
       itemBuilder: (BuildContext context, int index) {
+        VehiculeResp? oneVehicule = listVehiculeRecord?[index];
         return Card(
           child: ListTile(
-            title: Text(dataList[index].title),
-            subtitle: Text(dataList[index].subtitle),
+            title: Text(
+                "Car Numero ${oneVehicule?.vehicleAccidentNumber ?? 'No Number'} - Immatricule : ${oneVehicule?.plate ?? 'No plate'} "),
+            subtitle: Text(
+                "${oneVehicule?.type?.value}  -  ${oneVehicule?.brand?.value}  -  ${oneVehicule?.model?.value}}"),
             onTap: () {
-
               //-----------recovery
               recordCarCrash.someAction((p0) => null);
               //------------test recovery
@@ -82,11 +92,10 @@ class _recordCarCrashState extends State<recordCarCrash> {
                 MaterialPageRoute(
                   builder: (context) => RecordNewCar(
                     title: dataList[index].title,
-                    subtitle: dataList[index].subtitle,
-                  ),
+                        subtitle: dataList[index].subtitle,
+                      ),
                 ),
               );
-
             },
           ),
         );

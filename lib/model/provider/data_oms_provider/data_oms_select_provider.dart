@@ -310,8 +310,7 @@ class DataOmsSelectProvider with ChangeNotifier{
         return occupantRestraintSystemRespListSelect?.firstWhere((element) => element?.id == code, orElse: () => null);
       }
 
-
-      //----------Data Select Port du casque  ------------
+  //----------Data Select Port du casque  ------------
       List<WearingHelmetResp?>? wearingHelmetRespListSelect = [];
       //---methode get on WearingHelmetResp by WearingHelmetResp.code
       WearingHelmetResp? getWearingHelmetRespById(int? code){
@@ -508,16 +507,25 @@ class DataOmsSelectProvider with ChangeNotifier{
         dataSelect= allDataSelectOms?["seatingRangeResp"].cast<Map<String, dynamic>>();
         seatingRangeRespListSelect = dataSelect.map((oneMap) => SeatingRangeResp.fromMap(oneMap)).toList();
 
-        dataSelect= allDataSelectOms?["seatingPlaceResp"].cast<Map<String, dynamic>>();
-        seatingPlaceRespListSelect = dataSelect.map((oneMap) => SeatingPlaceResp.fromMap(oneMap)).toList();
+      dataSelect =
+          allDataSelectOms?["seatingPlaceResp"].cast<Map<String, dynamic>>();
+      seatingPlaceRespListSelect =
+          dataSelect.map((oneMap) => SeatingPlaceResp.fromMap(oneMap)).toList();
 
-        dataSelect= allDataSelectOms?["personDrugUseResp"].cast<Map<String, dynamic>>();
-        personDrugUseRespListSelect = dataSelect.map((oneMap) => PersonDrugUseResp.fromMap(oneMap)).toList();
+      dataSelect =
+          allDataSelectOms?["personDrugUseResp"].cast<Map<String, dynamic>>();
+      personDrugUseRespListSelect = dataSelect
+          .map((oneMap) => PersonDrugUseResp.fromMap(oneMap))
+          .toList();
 
-        dataSelect= allDataSelectOms?["professionResp"].cast<Map<String, dynamic>>();
-        professionRespListSelect = dataSelect.map((oneMap) => ProfessionResp.fromJson(oneMap)).toList();
+      dataSelect =
+          allDataSelectOms?["professionResp"].cast<Map<String, dynamic>>();
+      professionRespListSelect =
+          dataSelect.map((oneMap) => ProfessionResp.fromJson(oneMap)).toList();
 
-
+      dataSelect = allDataSelectOms?["actionResp"].cast<Map<String, dynamic>>();
+      actionRespListSelect =
+          dataSelect.map((oneMap) => ActionResp.fromMap(oneMap)).toList();
 
       notifyListeners();
       /*

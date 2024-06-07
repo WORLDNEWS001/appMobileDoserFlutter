@@ -10,6 +10,7 @@ import 'package:secondtest/model/class_data_oms_type/Accident/climatic_condition
 import 'package:secondtest/model/class_data_oms_type/Accident/impact_type_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Accident/municipality_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Enquete/EnquetteData.dart';
+import 'package:secondtest/model/class_data_oms_type/Enquete/Images.dart';
 import 'package:secondtest/model/class_data_oms_type/Enquete/PersonResp.dart';
 import 'package:secondtest/model/class_data_oms_type/Enquete/VehiculeResp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/action_resp.dart';
@@ -18,9 +19,13 @@ import 'package:secondtest/model/class_data_oms_type/Person/alcohol_test_result_
 import 'package:secondtest/model/class_data_oms_type/Person/alcohol_test_status_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/alcohol_test_type_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/gender_resp.dart';
+import 'package:secondtest/model/class_data_oms_type/Person/occupant_restraint_system_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/person_drug_use_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/professionResp.dart';
+import 'package:secondtest/model/class_data_oms_type/Person/seating_place_resp.dart';
+import 'package:secondtest/model/class_data_oms_type/Person/seating_range_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Person/trauma_severity_resp.dart';
+import 'package:secondtest/model/class_data_oms_type/Person/wearing_helmet_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Route/block_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Route/control_resp.dart';
 import 'package:secondtest/model/class_data_oms_type/Route/road_category_resp.dart';
@@ -69,7 +74,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     //-----------------------------/////--- info Accident Enquete ---//////-----------------------------//
     DataFormEnquete?.accidentDate = date_accident_controller?.text;
     DataFormEnquete?.accidentTime = time_accident_controller?.text;
-    DataFormEnquete?.place =  places_accident_controller?.text;
+    DataFormEnquete?.place = places_accident_controller?.text;
     DataFormEnquete?.city = data_enq_city;
     DataFormEnquete?.municipality = data_enq_municipality;
     DataFormEnquete?.accidentType = data_enq_accident_type;
@@ -78,8 +83,14 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     DataFormEnquete?.brightnessCondition = data_enq_brightness_condition;
     DataFormEnquete?.accidentSeverity = data_enq_accident_severity;
 
+    //---------------------// Vehicule Enquete //----------------------------//
+    DataFormEnquete?.vehicules = list_data_enq_vehicules;
 
-    print("\n\n\n  ---- Data -- Place is ::: ${DataFormEnquete?.place}  \n\n\n\n");
+    //---------------------// Person Enquete //----------------------------//
+    DataFormEnquete?.persons = data_enq_persons;
+
+    print(
+        "\n\n\n  ---- Data -- Place is ::: ${DataFormEnquete?.place}  \n\n\n\n");
 
     notifyListeners();
   }
@@ -94,6 +105,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     data_enq_accident_position?.lon = DataFormEnquete?.longitude;
 
 
+    //------------- Collect Road Data -----------------//
     data_enq_limite_vitesse = DataFormEnquete?.speedLimit;
     data_enq_road_type = DataFormEnquete?.roadType;
     data_enq_road_state = DataFormEnquete?.roadState;
@@ -104,6 +116,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     data_enq_road_intersection = DataFormEnquete?.roadIntersection;
     data_enq_virage = DataFormEnquete?.virage;
 
+    //------------- Collect Accident Data -----------------//
     date_accident_controller?.text = DataFormEnquete?.accidentDate ?? "";
     time_accident_controller?.text = DataFormEnquete?.accidentTime ?? "";
     places_accident_controller?.text = DataFormEnquete?.place ?? "";
@@ -115,10 +128,15 @@ class ProviderColleteDataEnquete with ChangeNotifier {
     data_enq_brightness_condition = DataFormEnquete?.brightnessCondition;
     data_enq_accident_severity = DataFormEnquete?.accidentSeverity;
 
+    //---------------------// Vehicule Enquete //----------------------------//
+    list_data_enq_vehicules = DataFormEnquete?.vehicules;
+
+    //---------------------// Person Enquete //----------------------------//
+    data_enq_persons = DataFormEnquete?.persons;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
     });
-
   }
 
 
@@ -201,7 +219,10 @@ class ProviderColleteDataEnquete with ChangeNotifier {
 
   //-------####---------------- Collect data Car Crash -----------------//
   List<VehiculeResp>? list_data_enq_vehicules = [];
-  Update_list_data_enq_vehicules(){
+
+  Update_list_data_enq_vehicules() {
+    data_enq_vehicleAccidentNumber_vehicule =
+        data_enq_vehicleAccidentNumber_vehicule! + 1;
 
     VehiculeResp vehiculeResp = VehiculeResp(
       id: 0,
@@ -249,39 +270,106 @@ class ProviderColleteDataEnquete with ChangeNotifier {
 
   VehicleActionResp? vehicleActionRespListSelect;
 
-
-
-
-
-
+  late int? data_enq_vehicleAccidentNumber_vehicule = 0;
 
   //-------#####-------- Method Record Form Person Crash Data- ----------------//
 
   List<PersonResp>? data_enq_persons = [];
 
-  TextEditingController? data_enq_ = TextEditingController();
-  int? data_enq_vehicleLinkedPedestrian = 2;
-  int? data_enq_vehicleAccidentNumber = 2;
-  int? data_enq_personAccidentNumber = 2;
+  Update_list_Person() {
+    data_enq_personAccidentNumber = data_enq_personAccidentNumber! + 1;
 
-  ActionResp? data_enq_personAction;
-  ProfessionResp? data_enq_Profession;
-  PersonDrugUseResp? data_enq_DrugUse;
-  GenderResp? data_enq_gender;
-  AlcoholConsumptionResp? data_enq_alcoholConsumption;
-  TraumaSeverityResp? data_enq_traumaSeverity;
+    PersonResp personResp = PersonResp(
+      id: 0,
+      firstName: data_enq_firstName?.text,
+      lastName: data_enq_lastName?.text,
+      cni: data_enq_cni?.text,
+      telephone: data_enq_telephone?.text,
+      personAccidentNumber: data_enq_personAccidentNumber,
+      vehicleAccidentNumber: data_enq_vehicleAccidentNumber_person,
+      vehicleLinkedPedestrian: data_enq_vehicleLinkedPedestrian,
+      birthDate: data_enq_birthDate?.text,
+      gender: data_enq_gender,
+      roadType: data_enq_roadType,
+      range: data_enq_range,
+      place: data_enq_place,
+      traumaSeverity: data_enq_traumaSeverity,
+      wearingHelmet: data_enq_wearingHelmet,
+      occupantRestraintSystem: data_enq_occupantRestraintSystem,
+      personAction: data_enq_personAction,
+      alcoholConsumption: data_enq_alcoholConsumption,
+      testStatus: data_enq_testStatus,
+      testType: data_enq_testType,
+      testResult: data_enq_testResult,
+      drugUse: data_enq_drugUse,
+      drivingLicenceYear: data_enq_drivingLicenceYear?.text,
+      care: data_enq_care,
+      personId: data_enq_personId,
+      //images: data_enq_images,
+      profession: data_enq_Profession,
+      nopermis: data_enq_nopermis?.text,
+      typepermis: 1,
+      dateCreate: data_enq_personDateCreate,
+      vgt_id: data_enq_data_enq_vgt_id,
+      originalIndex: data_enq_originalIndex,
+      types: data_enq_types,
+    );
+    data_enq_persons?.add(personResp);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
+  }
+
+  TextEditingController? data_enq_ = TextEditingController();
+
   AlcoholTestResultResp? data_enq_alcoholTestResult;
   AlcoholTestTypeResp? data_enq_alcoholTestType;
   AlcoholTestStatusResp? data_enq_alcoholTestStatus;
 
+  TextEditingController? data_enq_firstName = TextEditingController();
+  TextEditingController? data_enq_lastName = TextEditingController();
+  TextEditingController? data_enq_cni = TextEditingController();
+  TextEditingController? data_enq_telephone = TextEditingController();
+  int? data_enq_personAccidentNumber = 0;
 
+  TextEditingController? data_enq_vehicleChoise = TextEditingController();
+  late int? data_enq_vehicleAccidentNumber_person =
+      int.tryParse(data_enq_vehicleChoise?.text ?? "");
+  late int? data_enq_vehicleLinkedPedestrian =
+      int.tryParse(data_enq_vehicleChoise?.text ?? "");
 
+  TextEditingController? data_enq_birthDate = TextEditingController();
 
+  GenderResp? data_enq_gender;
+  RoadTypeResp? data_enq_roadType;
+  SeatingRangeResp? data_enq_range;
+  SeatingPlaceResp? data_enq_place;
+  TraumaSeverityResp? data_enq_traumaSeverity;
+  WearingHelmetResp? data_enq_wearingHelmet;
+  OccupantRestraintSystemResp? data_enq_occupantRestraintSystem;
+  ActionResp? data_enq_personAction;
+  AlcoholConsumptionResp? data_enq_alcoholConsumption;
+  AlcoholTestStatusResp? data_enq_testStatus;
+  AlcoholTestTypeResp? data_enq_testType;
+  AlcoholTestResultResp? data_enq_testResult;
+  PersonDrugUseResp? data_enq_drugUse;
 
+  TextEditingController? data_enq_drivingLicenceYear = TextEditingController();
+  int? data_enq_care = 0;
+  int? data_enq_personId = 0;
 
+  List<Images?>? data_enq_images;
 
+  ProfessionResp? data_enq_Profession;
 
+  TextEditingController? data_enq_nopermis = TextEditingController();
 
+  String? data_enq_personDateCreate = DateTime.now().toString();
+
+  int? data_enq_data_enq_vgt_id;
+  int? data_enq_originalIndex;
+  String? data_enq_types;
 
 /*
   1--////////-- Chauffeur -- /////----
@@ -316,10 +404,7 @@ class ProviderColleteDataEnquete with ChangeNotifier {
 
   }
 
-
-
 //--------------- Method Record Form Accident Data- ----------------//
-
   Update_date_accident_controller({required TextEditingController? data_enq_receive}){
     date_accident_controller = data_enq_receive;
     date_accident_data = (date_accident_controller?.text).toString();
